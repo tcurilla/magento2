@@ -125,7 +125,7 @@ class BatchRangeIterator implements BatchIteratorInterface
         if (null === $this->currentSelect) {
             $this->current();
         }
-        $this->isValid = ($this->batchSize + $this->currentBatch) < $this->totalItemCount;
+        $this->isValid = $this->currentBatch < $this->totalItemCount;
         $select = $this->initSelectObject();
         if ($this->isValid) {
             $this->iteration++;
@@ -181,7 +181,7 @@ class BatchRangeIterator implements BatchIteratorInterface
 
         //Reset sort order section from origin select object.
         $object->order($this->correlationName . '.' . $this->rangeField . ' ' . \Magento\Framework\DB\Select::SQL_ASC);
-        $object->limit($this->currentBatch, $this->batchSize);
+        $object->limit($this->batchSize, $this->currentBatch);
         $this->currentBatch += $this->batchSize;
 
         return $object;
